@@ -1,0 +1,74 @@
+// ==UserScript==
+// @name         Bing-bot
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  for google
+// @author       Andrey Smirnov
+// @match        https://www.bing.com/*
+// @match        https://www.uservice.ru/*
+// @icon         data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+// @grant        none
+// ==/UserScript==
+
+
+let keywords = ["новый субару в у-сервис", "у-сервис", "ниссан на башиловской"];
+let keyword = keywords[getRandom(0, keywords.length)];
+
+let links = document.links;
+let bingInput = document.getElementsByName("q")[0];
+let btnK = document.getElementsByName("search")[0];
+
+
+
+
+if (btnK !== undefined) {
+    let i = 0;
+    let timerId = setInterval(()=> {
+        bingInput.value += keyword[i];
+        i++;
+        if(i == keyword.length) {
+            clearInterval(timerId);
+            btnK.click();
+
+        }
+    },500)
+
+    } else if (location.hostname == "uservice.ru") {
+        console.log("Мы на uservice.ru");
+
+        setTimeout(()=> {
+            let index = getRandom(0, links.length);
+            if (getRandom(0, 100) >= 70) {
+                location.href = "https://www.bing.com/";
+            } else if
+                (links[index].href.indexOf("uservice.ru") !== -1){
+                    links[index].click();}
+        }, getRandom(2000, 5000))
+    }else {
+        let nextBingPage = true;
+        for (let i = 0; i < links.length; i++) {
+            if (links[i].href.includes("uservice.ru")) {
+                let link = links[i];
+                nextBingPage = false;
+                console.log("Нашел строку " + links[i]);
+                setTimeout(()=>{
+                    link.click();
+                },getRandom(2000, 5000))
+
+                break;
+            }
+        }
+        if(document.getElementsByClassName("sb_pagN").innerText == "5") {
+            nextBingPage = false;
+            location.href = "https://www.bing.com/";
+        }
+        if (nextBingPage) {
+            setTimeout(()=>{
+                getElementByClassName.click();
+            },getRandom(3000, 7000));
+        }
+    }
+
+function getRandom (min, max) {
+    return Math.floor(Math.random()*(max - min) + min);
+}
