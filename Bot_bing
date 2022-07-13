@@ -2,7 +2,7 @@
 // @name         Bing-bot
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  for google
+// @description  for bing
 // @author       Andrey Smirnov
 // @match        https://www.bing.com/*
 // @match        https://www.uservice.ru/*
